@@ -2,6 +2,7 @@ const express = require('express');
 const hbs = require('hbs');
 const fs = require('fs');
 
+const port = process.env.PORT || 3000;
 const app = express();
 
 app.set('view engine', 'hbs');
@@ -11,7 +12,6 @@ hbs.registerHelper('getCurrentYear', () => new Date().getFullYear());
 hbs.registerHelper('screamIt', (text) => text.toUpperCase());
 
 // Middlewares
-
 app.use((request, response, next) => {
   const now = new Date().toString();
   const log = `${now}: ${request.method} ${request.originalUrl}`;
@@ -31,6 +31,7 @@ app.use((request, response, next) => {
 app.use(express.static(__dirname + '/public'))  // serve static files
 
 
+// Route handlers
 app.get('/', (request, response) => {
   // response.send('<h1>Hello express!</h1>');
   response.render('home.hbs', {
@@ -51,6 +52,6 @@ app.get('/bad', (request, response) => {
   });
 });
 
-app.listen(3000, () => {
-  console.log('Server is up on port 3000!');
+app.listen(port, () => {
+  console.log(`Server is up on port ${port}!`);
 });
